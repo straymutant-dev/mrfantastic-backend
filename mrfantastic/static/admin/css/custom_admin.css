@@ -1,0 +1,710 @@
+/* ── CORE DESIGN SCHEME VARIABLES & DJANGO SYSTEM OVERRIDES ── */
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap');
+
+:root {
+    /* Main Page Canvas & Background Containers */
+    --body-bg: #1e1111 !important;        /* Your signature espresso page canvas */
+    --nav-bg: #2a1919;                  /* Lighter horizontal navigation framework bar */
+    --card-bg: #0d0707;                 /* Deep obsidian modular card panels */
+    --accent-red: #d92b34;
+    --text-muted: #554040;
+    --text-white: #ffffff;
+    --font-display: 'Black Ops One', sans-serif;
+    --font-condensed: 'Barlow Condensed', sans-serif;
+    --font-base: 'Barlow', sans-serif;
+
+    /* Native Django Admin Framework Variables mapping */
+    --primary: var(--accent-red) !important;
+    --primary-is-dark: #1e1111 !important;
+    --header-bg: var(--nav-bg) !important;
+    --header-color: var(--text-white) !important;
+    --header-link-color: #ffd859 !important; 
+    --breadcrumbs-bg: #140b0b !important;
+    --link-color: #ffd859 !important;
+    --link-hover-color: var(--text-white) !important;
+    --font-family: 'Barlow', sans-serif !important;
+
+    /* Extended Internal Subpage Theme Tokens */
+    --breadcrumbs-link-color: #ffd859 !important;
+    --body-quiet-color: #a68c8c !important;
+    --border-color: #241414 !important;
+}
+
+/* ── 1. GLOBAL BASELINE & CORE SCROLLBAR RESETS ── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--body-bg) !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-base) !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+/* Custom Sleek Dark Terminal Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--card-bg); }
+::-webkit-scrollbar-thumb { background: #331a1a; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
+
+/* ── 2. HEADER INTERACTION TRACK (Dashboard & Deep Admin Screens) ── */
+header, #header {
+    width: 100%;
+    padding: 1.25rem 3rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background-color: var(--nav-bg) !important;
+    border-bottom: 1px solid #3d2525 !important;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: var(--text-white) !important;
+}
+
+#branding h1 {
+    font-family: var(--font-display) !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+}
+
+#branding h1 a { color: var(--text-white) !important; text-decoration: none !important; }
+
+.portal-logo-img {
+    height: 26px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1) !important;
+    transition: filter 0.25s ease-in-out !important;
+}
+
+.portal-logo-img:hover {
+    cursor: pointer;
+    filter: brightness(0) invert(1) drop-shadow(0 0 8px var(--accent-red)) !important;
+}
+
+.portal-label {
+    font-family: var(--font-condensed);
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+#user-tools, .operator-welcome {
+    font-family: var(--font-condensed) !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase;
+    color: #a68c8c !important;
+}
+
+#user-tools a, .logout-action-btn {
+    border: 1px solid var(--text-muted) !important;
+    padding: 0.4rem 1.2rem !important;
+    color: #a68c8c !important;
+    text-decoration: none !important;
+    margin-left: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+#user-tools a:hover, .logout-action-btn:hover {
+    color: var(--text-white) !important;
+    border-color: var(--text-white) !important;
+    background: transparent !important;
+}
+
+/* ── 3. BREADCRUMBS FRAMEWORK TRACK ── */
+.breadcrumbs {
+    background: #140b0b !important;
+    border-bottom: 1px solid #241414 !important;
+    padding: 0.75rem 3rem !important;
+    font-family: var(--font-condensed) !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase;
+    color: #735c5c !important;
+}
+
+.breadcrumbs a { color: #ffd859 !important; text-decoration: none !important; }
+.breadcrumbs a:hover { color: var(--text-white) !important; }
+
+/* ── 4. NATIVE SIDEBAR PANEL INTERFACES (`#nav-sidebar`) ── */
+#nav-sidebar, .nav-sidebar {
+    background-color: var(--card-bg) !important;
+    border-right: 1px solid #241414 !important;
+}
+
+#nav-sidebar th, #nav-sidebar td { background: transparent !important; }
+.sidebar-toggle { background: #140b0b !important; border-right: 1px solid #241414 !important; color: var(--accent-red) !important; }
+
+#nav-sidebar .main input[type="text"] {
+    background: #140b0b !important;
+    border: 1px solid #331a1a !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-base);
+    padding: 0.5rem !important;
+}
+
+#nav-sidebar .module th a { font-family: var(--font-base) !important; color: var(--text-white) !important; }
+#nav-sidebar .module tr:hover th a { color: #ffd859 !important; }
+
+/* Enforce dark minimalist style for sidebar headers */
+#nav-sidebar .module caption, .nav-sidebar .module caption, #nav-sidebar .module h2 {
+    background: #140b0b !important;
+    color: var(--accent-red) !important;
+    font-family: var(--font-condensed) !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase;
+}
+
+/* ── 5. DATA CHANGE LIST GRIDS, SEARCH FILTERS & TOOLBARS ── */
+#changelist {
+    display: flex;
+    flex-direction: column;
+    background: transparent !important;
+}
+
+/* Search Box Container Fixes */
+#toolbar, .search-container {
+    background: #140b0b !important;
+    border: 1px solid var(--border-dark);
+    padding: 1rem 1.5rem !important;
+    margin-bottom: 1.5rem;
+}
+
+#changelist-search input[type="text"] {
+    background: #0d0707 !important;
+    border: 1px solid #2d1a1a !important;
+    color: var(--text-white) !important;
+    padding: 0.5rem 1rem !important;
+    font-family: var(--font-base) !important;
+    outline: none !important;
+}
+
+#changelist-search input[type="text"]:focus {
+    border-color: var(--accent-red) !important;
+}
+
+#changelist-search input[type="submit"], .search-container input[type="submit"] {
+    background: var(--accent-red) !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-condensed) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    padding: 0.5rem 1.5rem !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+/* Bulk Action Drops Dropdown Selection Layouts */
+.actions {
+    background: #140b0b !important;
+    border: 1px solid #241414 !important;
+    padding: 0.75rem 1.5rem !important;
+    color: #a68c8c !important;
+    font-family: var(--font-condensed) !important;
+    text-transform: uppercase;
+}
+
+.actions select {
+    background: #0d0707 !important;
+    border: 1px solid #2d1a1a !important;
+    color: var(--text-white) !important;
+    padding: 0.4rem !important;
+}
+
+.actions .button {
+    background: #2a1919 !important;
+    border: 1px solid #3d2525 !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-condensed) !important;
+    font-weight: 700 !important;
+    padding: 0.4rem 1.2rem !important;
+}
+
+/* Primary Change List Columns & Tables Data Grid Overrides */
+#result_list {
+    width: 100% !important;
+    border: 1px solid #241414 !important;
+    background: var(--card-bg) !important;
+}
+
+#result_list thead th {
+    background: #140b0b !important;
+    padding: 1.1rem 1.5rem !important;
+    border-bottom: 1px solid #241414 !important;
+    font-family: var(--font-condensed) !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    color: var(--accent-red) !important;
+}
+
+#result_list thead th .text a { color: var(--accent-red) !important; }
+
+#result_list tbody tr {
+    border-bottom: 1px solid #1a1010 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+#result_list tbody tr:nth-child(odd) { background-color: rgba(20, 11, 11, 0.4) !important; }
+#result_list tbody tr:nth-child(even) { background-color: rgba(13, 7, 7, 0.8) !important; }
+#result_list tbody tr:hover { background-color: #140b0b !important; }
+
+#result_list tbody td, #result_list tbody th {
+    padding: 1.25rem 1.5rem !important;
+    font-family: var(--font-base) !important;
+    color: var(--text-white) !important;
+}
+
+#result_list tbody th a, #result_list tbody td a {
+    color: var(--text-white) !important;
+}
+#result_list tbody tr:hover th a, #result_list tbody tr:hover td a {
+    color: #ffd859 !important;
+}
+
+/* Checklist Side Column Filtering Panel Overrides */
+#changelist-filter {
+    background-color: var(--card-bg) !important;
+    border-left: 1px solid #241414 !important;
+}
+
+#changelist-filter h2 {
+    background: #140b0b !important;
+    color: var(--accent-red) !important;
+    font-family: var(--font-condensed) !important;
+    padding: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+}
+
+#changelist-filter h3 {
+    color: var(--text-white) !important;
+    font-family: var(--font-condensed) !important;
+    text-transform: uppercase !important;
+    padding: 1rem 1rem 0.25rem 1rem !important;
+    font-size: 0.85rem !important;
+}
+
+#changelist-filter ul li {
+    padding: 0.35rem 1rem !important;
+}
+
+#changelist-filter ul li a {
+    color: #a68c8c !important;
+}
+
+#changelist-filter ul li a:hover, #changelist-filter ul li.selected a {
+    color: #ffd859 !important;
+    font-weight: 700 !important;
+}
+
+/* ── 6. FORM MODULES, FIELDSETS & DATA BLOCKS ── */
+#content { padding: 3rem !important; background: transparent !important; }
+
+.form-row {
+    padding: 1.5rem !important;
+    border-bottom: 1px solid #1c0f0f !important;
+    background: transparent !important;
+}
+
+.form-row label, .required label {
+    color: var(--accent-red) !important;
+    font-family: var(--font-condensed) !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+}
+
+.form-row input[type="text"], .form-row input[type="password"], .form-row select, .form-row textarea, .form-row input[type="number"] {
+    background: #140b0b !important;
+    border: 1px solid #2d1a1a !important;
+    color: var(--text-white) !important;
+    padding: 0.6rem 1rem !important;
+    font-family: var(--font-base) !important;
+    outline: none !important;
+}
+
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--accent-red) !important; }
+
+/* Tabular and Stacked Inline Relationship Blocks Layout overrides */
+.inline-group {
+    background: var(--card-bg) !important;
+    border: 1px solid #241414 !important;
+    margin-top: 2rem;
+}
+
+.inline-group h2 {
+    background: #140b0b !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-display) !important;
+    font-size: 1.1rem !important;
+    padding: 1rem !important;
+    text-transform: uppercase !important;
+}
+
+.inline-related {
+    background: transparent !important;
+    border: none !important;
+}
+
+.inline-related h3 {
+    background: #1a0f0f !important;
+    color: var(--accent-red) !important;
+    font-family: var(--font-condensed) !important;
+    padding: 0.6rem 1rem !important;
+    font-size: 0.85rem !important;
+}
+
+/* ── 7. DUAL LIST BOX FIELD CONFIGURATIONS (`.selector`) ── */
+.selector { width: 100% !important; max-width: 900px !important; }
+.selector-available, .selector-chosen { border: 1px solid #241414 !important; background-color: #140b0b !important; }
+
+.selector h2 {
+    background: #2a1919 !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-condensed) !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 2px !important;
+    padding: 0.6rem 1rem !important;
+}
+
+.selector select {
+    background: #0d0707 !important;
+    color: #a68c8c !important;
+    border: none !important;
+    font-family: var(--font-base) !important;
+}
+
+.selector select option {
+    padding: 0.4rem 0.75rem !important;
+    background: #0d0707 !important;
+}
+
+.selector select option:hover {
+    background-color: #1a0f0f !important;
+}
+
+.selector-chooseall, .selector-clearall {
+    font-family: var(--font-condensed) !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    color: #ffd859 !important;
+}
+
+/* ── 8. FOOTER BUTTON ACTION CONTROL ROWS (`.submit-row`) ── */
+.submit-row {
+    background: var(--card-bg) !important;
+    border: 1px solid #241414 !important;
+    padding: 1.5rem 2.5rem !important;
+    margin-top: 2rem !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 1.25rem !important;
+}
+
+.submit-row input, .submit-row a {
+    font-family: var(--font-condensed) !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    padding: 0.8rem 1.75rem !important;
+    height: auto !important;
+    line-height: normal !important;
+}
+
+.submit-row input[name="_addanother"], .submit-row input[name="_continue"] {
+    background: #2a1919 !important;
+    border: 1px solid #3d2525 !important;
+    color: #a68c8c !important;
+}
+
+.submit-row input.default { background: var(--accent-red) !important; border: none !important; color: var(--text-white) !important; }
+.submit-row input.default:hover { background: #bd222a !important; box-shadow: 0 5px 15px rgba(217, 43, 52, 0.2) !important; }
+
+/* Delete verification anchor tag buttons tracking overrides */
+.submit-row .deletelink {
+    background: rgba(217, 43, 52, 0.05) !important;
+    border: 1px solid rgba(217, 43, 52, 0.2) !important;
+    color: var(--accent-red) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.submit-row .deletelink:hover {
+    background: var(--accent-red) !important;
+    color: white !important;
+}
+
+/* Top utility row tool anchors (e.g., "History" or "Add object") */
+.object-tools {
+    margin-bottom: 1.5rem !important;
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+.object-tools a {
+    font-family: var(--font-condensed) !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase;
+    padding: 0.5rem 1.5rem !important;
+    border: 1px solid #3d2525 !important;
+    color: var(--text-white) !important;
+}
+
+.object-tools a:hover {
+    border-color: var(--accent-red) !important;
+    background: rgba(217, 43, 52, 0.08) !important;
+}
+
+.object-tools a.addlink {
+    color: #26e67a !important;
+    background: rgba(38, 230, 122, 0.04) !important;
+    border-color: rgba(38, 230, 122, 0.15) !important;
+}
+.object-tools a.addlink:hover {
+    color: var(--card-bg) !important;
+    background-color: #26e67a !important;
+}
+
+/* Bottom Pagination controls overrides */
+.paginator {
+    background: #140b0b !important;
+    border-top: 1px solid #241414 !important;
+    padding: 0.75rem 1.5rem !important;
+    font-family: var(--font-condensed) !important;
+    text-transform: uppercase;
+    color: #735c5c !important;
+}
+
+.paginator a { color: #ffd859 !important; }
+.paginator .this-page {
+    color: var(--text-white) !important;
+    background: var(--accent-red) !important;
+    padding: 0.2rem 0.5rem !important;
+    margin: 0 0.25rem;
+}
+
+/* ── 9. CUSTOM WORKSPACE INDEX HOMEPAGE DECK ── */
+.dashboard-viewport {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 3.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+.dashboard-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #2e1a1a;
+    padding-bottom: 1.5rem;
+}
+
+.hero-tagline {
+    font-family: var(--font-condensed);
+    color: var(--accent-red);
+    font-size: 0.95rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: 3.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.accent-color { color: var(--accent-red) !important; }
+.white-text { color: var(--text-white) !important; }
+
+.workspace-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.workspace-column {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.control-card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid #241414 !important;
+    padding: 3.5rem;
+}
+
+.card-title {
+    font-family: var(--font-display) !important;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2.5rem;
+}
+
+.app-title-link {
+    color: var(--text-white) !important;
+    text-decoration: none !important;
+}
+.app-title-link:hover { color: var(--accent-red) !important; }
+
+.feed-subtitle {
+    font-family: var(--font-condensed) !important;
+    color: var(--text-white) !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.models-container, .feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.model-row-item, .feed-row-item {
+    background-color: rgba(20, 11, 11, 0.4) !important;
+    border: 1px solid #1a1010 !important;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inline-space-between { justify-content: space-between; }
+.flex-row-align { display: flex; align-items: center; gap: 1.5rem; }
+
+.item-meta-details h4 {
+    font-family: var(--font-display) !important;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.item-meta-details h4 a, .model-link, .log-object-link {
+    color: var(--text-white) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+}
+.item-meta-details h4 a:hover, .model-link:hover, .log-object-link:hover { 
+    color: var(--accent-red) !important; 
+}
+
+.stale-object { color: #a68c8c !important; text-transform: uppercase; }
+
+.item-meta-details p, .log-content-type {
+    font-family: var(--font-base) !important;
+    font-size: 0.85rem;
+    color: #735c5c !important;
+    margin-top: 0.25rem;
+}
+
+.model-actions-track {
+    display: flex;
+    gap: 1rem;
+}
+
+.inline-action-link {
+    font-family: var(--font-condensed) !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.add-modifier {
+    color: #26e67a !important;
+    background: rgba(38, 230, 122, 0.04) !important;
+    border-color: rgba(38, 230, 122, 0.15) !important;
+}
+.add-modifier:hover {
+    color: var(--card-bg) !important;
+    background-color: #26e67a !important;
+}
+
+.edit-modifier {
+    color: #ffb700 !important;
+    background: rgba(255, 183, 0, 0.04) !important;
+    border-color: rgba(255, 183, 0, 0.15) !important;
+}
+.edit-modifier:hover {
+    color: var(--card-bg) !important;
+    background-color: #ffb700 !important;
+}
+
+.log-status-indicator {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-base) !important;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 2px;
+}
+
+.log-status-indicator.addition { color: #26e67a !important; background: rgba(38, 230, 122, 0.12) !important; }
+.log-status-indicator.change { color: #ffb700 !important; background: rgba(255, 183, 0, 0.12) !important; }
+.log-status-indicator.deletion { color: var(--accent-red) !important; background: rgba(217, 43, 52, 0.12) !important; }
+
+.empty-status-text {
+    font-family: var(--font-base) !important;
+    font-size: 0.9rem;
+    color: #735c5c !important;
+    text-align: center;
+}
+
+/* ── OPERATOR UTILITY BELT ALIGNMENT ── */
+.operator-utility-belt {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.hero-utility-link {
+    font-family: var(--font-condensed);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a68c8c !important;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.hero-utility-link:hover {
+    color: var(--accent-red) !important;
+}

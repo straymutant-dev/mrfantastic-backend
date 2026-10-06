@@ -1,0 +1,60 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Portal — MR.FANTASTIC</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'admin/css/login_admin.css' %}">
+</head>
+<body>
+
+    <header>
+        <!-- Interactive link wrapper configured for login screen header -->
+        <a href="{% url 'admin:index' %}" class="logo-link-wrapper">
+            <img src="{% static 'admin/images/FantasticLogo.svg' %}" alt="MR.FANTASTIC Logo" class="portal-logo-img">
+        </a>
+        <div class="portal-label">Secure Portal</div>
+    </header>
+
+    <main>
+        <div class="login-card" id="loginCard">
+            <div class="status-dot" id="statusDot"></div>
+            
+            <p class="restricted-title">Restricted Access</p>
+            <div class="sysadmin-logo">
+                <span class="white-part">Sys</span><span class="red-part">admin</span>
+            </div>
+
+            {% if form.errors %}
+                <p class="errornote" id="errorBanner">Authentication Failed. Verification keys mismatched.</p>
+            {% endif %}
+
+            <form action="{{ app_path }}" method="post" id="login-form">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <label for="id_username">Operator Identifier</label>
+                    <input type="text" name="username" id="id_username" placeholder="ENTER USERNAME..." required autocomplete="username">
+                </div>
+                
+                <div class="form-row">
+                    <label for="id_password">Master Password</label>
+                    <input type="password" name="password" id="id_password" placeholder="ENTER PASSWORD..." required autocomplete="current-password">
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Authenticate —&gt;
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script src="{% static 'admin/js/login_admin.js' %}"></script>
+</body>
+</html>

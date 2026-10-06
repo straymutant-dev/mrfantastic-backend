@@ -1,0 +1,63 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Out — MR.FANTASTIC</title>
+    
+    <!-- Design Fonts Matrix -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- REUSING YOUR LOGIN PRESENTATION LAYER -->
+    <link rel="stylesheet" href="{% static 'admin/css/login_admin.css' %}">
+    
+    <style>
+        /* Contextual adjustments specific to the termination readout text */
+        .logout-notice-text {
+            font-family: var(--font-base);
+            color: #a68c8c;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        .action-return-trigger {
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── NAVIGATION BAR WITH REACTIVE GLOW ── -->
+    <header>
+        <a href="{% url 'admin:index' %}" class="logo-link-wrapper">
+            <img src="{% static 'admin/images/FantasticLogo.svg' %}" alt="MR.FANTASTIC Logo" class="portal-logo-img">
+        </a>
+        <div class="portal-label">Secure Portal</div>
+    </header>
+
+    <!-- ── SECURE TERMINATION CARD PANEL ── -->
+    <main>
+        <div class="login-card">
+            <!-- Ambient indicator node stays active to show portal is online -->
+            <div class="status-dot"></div>
+            
+            <p class="restricted-title">Session Terminated</p>
+            <div class="sysadmin-logo" style="margin-bottom: 1.5rem;">
+                <span class="white-part">Logged</span><span class="red-part">_Out</span>
+            </div>
+
+            <p class="logout-notice-text">
+                {% translate "Thanks for spending some quality time with the web site today." %}
+            </p>
+
+            <!-- Re-authenticates by looping the operator directly back to the gateway -->
+            <a href="{% url 'admin:index' %}" class="submit-btn action-return-trigger">
+                Log In Again &mdash;&gt;
+            </a>
+        </div>
+    </main>
+
+</body>
+</html>

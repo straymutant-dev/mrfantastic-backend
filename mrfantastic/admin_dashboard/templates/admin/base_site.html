@@ -1,0 +1,96 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block nav-breadcrumbs %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content %}
+<div class="workspace-layout">
+
+    <!-- LEFT COLUMN: DYNAMIC DJANGO APP MODULES -->
+    <div class="workspace-column">
+        {% if app_list %}
+            {% for app in app_list %}
+                <div class="control-card">
+                    <h3 class="card-title">
+                        {% if app.app_url %}
+                            <a href="{{ app.app_url }}" class="app-title-link">{{ app.name }}</a>
+                        {% else %}
+                            {{ app.name }}
+                        {% endif %}
+                    </h3>
+
+                    <div class="models-container">
+                        {% for model in app.models %}
+                            <div class="model-row-item">
+                                <div class="item-meta-details">
+                                    {% if model.admin_url %}
+                                        <h4><a href="{{ model.admin_url }}" class="model-link">{{ model.name }}</a></h4>
+                                    {% else %}
+                                        <h4>{{ model.name }}</h4>
+                                    {% endif %}
+                                </div>
+
+                                <div class="model-actions-track">
+                                    {% if model.add_url %}
+                                        <a href="{{ model.add_url }}" class="inline-action-link add-modifier">+ Add</a>
+                                    {% endif %}
+                                    {% if model.admin_url %}
+                                        {% if model.view_only %}
+                                            <a href="{{ model.admin_url }}" class="inline-action-link edit-modifier">View</a>
+                                        {% else %}
+                                            <a href="{{ model.admin_url }}" class="inline-action-link edit-modifier">Change</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>{% translate "You don't have permission to view or edit anything." %}</p>
+        {% endif %}
+    </div>
+
+    <!-- RIGHT COLUMN: RECENT ACTIONS FEED -->
+    <div class="workspace-column">
+        <div class="control-card">
+            <h3 class="card-title">Recent <span class="accent-color">Actions</span></h3>
+            <p class="feed-subtitle">My Actions</p>
+
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+                <p class="empty-status-text">{% translate 'None available' %}</p>
+            {% else %}
+                <div class="feed-container">
+                    {% for entry in admin_log %}
+                        <div class="feed-row-item">
+                            <div class="flex-row-align">
+                                <div class="log-status-indicator {% if entry.is_addition %}addition{% elif entry.is_change %}change{% elif entry.is_deletion %}deletion{% endif %}">
+                                    {% if entry.is_addition %}+{% elif entry.is_change %}~{% elif entry.is_deletion %}&times;{% endif %}
+                                </div>
+                                <div class="item-meta-details">
+                                    {% if entry.is_deletion or not entry.get_admin_url %}
+                                        <h4 class="stale-object">{{ entry.object_repr }}</h4>
+                                    {% else %}
+                                        <h4><a href="{{ entry.get_admin_url }}" class="log-object-link">{{ entry.object_repr }}</a></h4>
+                                    {% endif %}
+                                    {% if entry.content_type %}
+                                        <p class="log-content-type">{{ entry.content_type }}</p>
+                                    {% else %}
+                                        <p class="log-content-type">{% translate 'Unknown content' %}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

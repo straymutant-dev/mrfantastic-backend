@@ -1,0 +1,231 @@
+/* ── CORE STYLING PROFILE ── */
+:root {
+    --bg-color: #1e1111;        /* Raised to a lighter, richer cyberpunk base shade */
+    --nav-bg: #2a1919;          /* Distinct, lighter horizontal navigation strip */
+    --card-bg: #0d0707;         /* Deep obsidian inner card contrast remains anchored */
+    --accent-red: #d92b34;
+    --text-muted: #554040;
+    --text-white: #ffffff;
+    --glow-color: rgba(217, 43, 52, 0.22); /* Soft crimson frame aura constant */
+    --font-display: 'Black Ops One', sans-serif;
+    --font-condensed: 'Barlow Condensed', sans-serif;
+    --font-base: 'Barlow', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-white);
+    font-family: var(--font-base);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── DISTINCT HEADER NAVIGATION BAR ── */
+header {
+    width: 100%;
+    padding: 1.25rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--nav-bg);   /* Lighter distinct section frame fill */
+    border-bottom: 1px solid #3d2525;  /* Sharp horizontal containment separator line */
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Enforces precise sizing constraints on your custom vector logo file */
+.portal-logo-img {
+    height: 26px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1) !important; 
+    transition: filter 0.25s ease-in-out !important; /* Smooth hover-glow transition timing */
+}
+
+/* Reactive Frontend Logo Glow State */
+.portal-logo-img:hover {
+    cursor: pointer;
+    filter: brightness(0) invert(1) drop-shadow(0 0 8px var(--accent-red)) !important;
+}
+
+.portal-label {
+    font-family: var(--font-condensed);
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ── LOCKBOX CARD FRAME WITH GLOW ── */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    /* Balanced radial glow using the lighter background values */
+    background: radial-gradient(circle at center, #2d1b1b 0%, var(--bg-color) 100%);
+}
+
+.login-card {
+    background-color: var(--card-bg);
+    border: 1px solid #241414;
+    width: 100%;
+    max-width: 480px;
+    padding: 4rem 3.5rem;
+    text-align: center;
+    position: relative;
+    /* Double-layer shadow layout: Dense environment drop + soft ambient edge glow aura */
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 
+                0 0 35px var(--glow-color);
+}
+
+/* Ambient Pulse Indicator Node */
+.status-dot {
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-red);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-red);
+}
+
+/* Error/Breach Variant Style */
+.status-dot.breached {
+    animation: alertPulse 0.5s infinite alternate;
+}
+
+@keyframes alertPulse {
+    from { box-shadow: 0 0 4px var(--accent-red); background-color: #ff3b46; }
+    to { box-shadow: 0 0 14px var(--accent-red); background-color: #801217; }
+}
+
+.restricted-title {
+    font-family: var(--font-condensed);
+    color: var(--accent-red);
+    font-size: 0.85rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.sysadmin-logo {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sysadmin-logo .white-part { color: var(--text-white); }
+.sysadmin-logo .red-part { color: var(--accent-red); }
+
+/* ── FORM CONTROL ELEMENTS ── */
+.form-row {
+    margin-bottom: 2rem;
+    text-align: left;
+    background: rgba(20, 11, 11, 0.4);
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #331a1a;
+    transition: all 0.3s ease;
+}
+
+.form-row:focus-within {
+    border-bottom-color: var(--accent-red);
+    background: rgba(38, 20, 20, 0.6);
+}
+
+.form-row label {
+    display: block;
+    font-family: var(--font-condensed);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+}
+
+/* Completely flattens browser user-agent background blocks */
+.form-row input {
+    width: 100%;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: var(--text-white) !important;
+    font-family: var(--font-base);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    padding: 0.2rem 0;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-row input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Neutralizes aggressive browser autofill background hijacking color loops */
+.form-row input:-webkit-autofill,
+.form-row input:-webkit-autofill:hover, 
+.form-row input:-webkit-autofill:focus,
+.form-row input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--text-white) !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1c0f0f inset !important;
+    box-shadow: 0 0 0px 1000px #1c0f0f inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ── ACTION TRIGGER BUTTONS ── */
+.submit-btn {
+    width: 100%;
+    padding: 1.1rem;
+    background-color: var(--accent-red);
+    border: none;
+    color: var(--text-white);
+    font-family: var(--font-condensed);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-btn:hover {
+    background-color: #bd222a;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(217, 43, 52, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.errornote {
+    color: var(--accent-red);
+    font-family: var(--font-condensed);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}

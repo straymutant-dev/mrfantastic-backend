@@ -1,0 +1,142 @@
+{% load i18n static log %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Room — MR.FANTASTIC</title>
+    
+    <!-- Design Fonts Matrix -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MASTER CONTROL ROOM CSS OVERRIDE -->
+    <link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+</head>
+<body>
+
+    <!-- ── DISTINCT HEADER NAVIGATION BAR ── -->
+    <header class="dashboard-header">
+        <!-- Added hyperlink wrapper pointing natively back to your admin index channel -->
+        <a href="{% url 'admin:index' %}" class="logo-link-wrapper">
+            <img src="{% static 'admin/images/FantasticLogo.svg' %}" alt="MR.FANTASTIC Logo" class="portal-logo-img">
+        </a>
+        <div class="portal-label">Secure Portal</div>
+    </header>
+
+    <main class="dashboard-viewport">
+        
+        <!-- ── HERO TITLE BLOCK ── -->
+        <!-- ── HERO TITLE BLOCK ── -->
+        <section class="dashboard-hero">
+            <div class="hero-left">
+                <p class="hero-tagline">Control Room</p>
+                <h1 class="hero-title">Dash<span class="accent-color">board</span></h1>
+            </div>
+            <div class="hero-right">
+                {% if user.is_authenticated %}
+                    <div class="operator-utility-belt">
+                        <span class="operator-welcome">Operator: <span class="white-text">{{ user.get_username|upper }}</span></span>
+                        
+                        <!-- NATIVE UTILITY CORRIDOR TRACKS -->
+                        <a href="{{ site_url }}" class="hero-utility-link" target="_blank">View Site</a>
+                        <a href="{% url 'admin:password_change' %}" class="hero-utility-link">Change Password</a>
+                        
+                        <a href="{% url 'admin:logout' %}" class="logout-action-btn">Logout &times;</a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- ── TWO-COLUMN CONTROL MATRIX ── -->
+        <div class="workspace-layout">
+            
+            <!-- LEFT COLUMN: DYNAMIC DJANGO APP MODULES -->
+            <div class="workspace-column">
+                {% if app_list %}
+                    {% for app in app_list %}
+                        <div class="control-card">
+                            <h3 class="card-title">
+                                {% if app.app_url %}
+                                    <a href="{{ app.app_url }}" class="app-title-link">{{ app.name }}</a>
+                                {% else %}
+                                    {{ app.name }}
+                                {% endif %}
+                            </h3>
+                            
+                            <div class="models-container">
+                                {% for model in app.models %}
+                                    <div class="model-row-item">
+                                        <div class="item-meta-details">
+                                            {% if model.admin_url %}
+                                                <h4><a href="{{ model.admin_url }}" class="model-link">{{ model.name }}</a></h4>
+                                            {% else %}
+                                                <h4>{{ model.name }}</h4>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="model-actions-track">
+                                            {% if model.add_url %}
+                                                <a href="{{ model.add_url }}" class="inline-action-link add-modifier">+ Add</a>
+                                            {% endif %}
+                                            {% if model.admin_url %}
+                                                <a href="{{ model.admin_url }}" class="inline-action-link edit-modifier">&#9998; Change</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="control-card">
+                        <p class="empty-status-text">{% translate "No modules authorized. Verification clearance required." %}</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- RIGHT COLUMN: DYNAMIC RECENT SYSTEM ACTIONS LOG -->
+            <div class="workspace-column">
+                <div class="control-card">
+                    <h3 class="card-title">Recent <span class="accent-color">Actions</span></h3>
+                    <p class="feed-subtitle">My Actions</p>
+                    
+                    <div class="feed-container">
+                        {% get_admin_log 10 as admin_log for_user user %}
+                        {% if not admin_log %}
+                            <p class="empty-status-text">{% translate "No recent operations recorded in system log storage." %}</p>
+                        {% else %}
+                            {% for entry in admin_log %}
+                                <div class="feed-row-item inline-space-between">
+                                    <div class="item-meta-details flex-row-align">
+                                        <!-- Functional Status Icons Matching Mockup Vectors -->
+                                        <span class="log-status-indicator {% if entry.is_addition %}addition{% elif entry.is_change %}change{% else %}deletion{% endif %}">
+                                            {% if entry.is_addition %}&#43;{% elif entry.is_change %}&#9998;{% else %}&times;{% endif %}
+                                        </span>
+                                        
+                                        <div class="log-text-block">
+                                            {% if entry.is_deletion or not entry.get_admin_url %}
+                                                <h4 class="stale-object">{{ entry.object_repr }}</h4>
+                                            {% else %}
+                                                <h4><a href="{{ entry.get_admin_url }}" class="log-object-link">{{ entry.object_repr }}</a></h4>
+                                            {% endif %}
+                                            <p class="log-content-type">
+                                                {% if entry.content_type %}
+                                                    {% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}
+                                                {% else %}
+                                                    {% translate 'System Record' %}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
